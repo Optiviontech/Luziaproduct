@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paper Format -->
+    <record id="paper_format_receipt" model="report.paperformat">
+        <field name="name">Receipt Paper Format</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">100</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">45</field>
+        <field name="margin_bottom">32</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">40</field>
+        <field name="dpi">90</field>
+    </record>
+    
+    <record id="paper_format_receipts" model="report.paperformat"> <!--added for v_18-->
+        <field name="name">Receipt Paper Format</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">100</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">55</field>
+        <field name="margin_bottom">32</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">50</field>
+        <field name="dpi">90</field>
+    </record>
+    
+    <!-- Quotation / Order Receipt -->
+    <record id="action_receipt_sale_order" model="ir.actions.report">
+        <field name="name">Quotation / Order Receipt</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_sale_order</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_sale_order</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipt"/>
+        <!--field name="print_report_name">('parth Trivedi')</field-->
+    </record>
+    
+    <!-- Purchase Order Receipt -->
+    <record id="action_receipt_purchase_order" model="ir.actions.report">
+        <field name="name">Purchase Order Receipt</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_purchase_order</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_purchase_order</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipt"/>
+    </record>
+    
+    <!-- Request For Quotation Receipt -->
+    <record id="action_receipt_rfq" model="ir.actions.report">
+        <field name="name">Request For Quotation Receipt</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_rfq</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_rfq</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipt"/>
+    </record>
+    
+    <!-- Picking Operations Receipt -->
+    <record id="action_receipt_picking_operation" model="ir.actions.report">
+        <field name="name">Picking Operations Receipt</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_picking_operation</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_picking_operation</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipts"/>
+    </record>
+    
+    <!-- Delivery Slip Receipt -->
+    <record id="action_receipt_delivery_slip" model="ir.actions.report">
+        <field name="name">Delivery Slip Receipt</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_delivery_slip</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_delivery_slip</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipts"/>
+    </record>
+    
+    <!-- Invoice Receipt -->
+    <record id="action_receipt_invoice" model="ir.actions.report">
+        <field name="name">Invoice Receipt</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_invoice</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_invoice</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipt"/>
+    </record>
+    
+    <!-- Invoice Without Payment Receipt -->
+    <record id="action_receipt_invoicewithoutpayment" model="ir.actions.report">
+        <field name="name">Invoice Without Payment Receipt</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_invoicewithoutpayment</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_invoicewithoutpayment</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipt"/>
+    </record>
+    
+    <!-- Payment Receipt -->
+    <record id="action_receipt_payment" model="ir.actions.report">
+        <field name="name">Payment Slip</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">all_receipt_reports_omax.receipt_payment_slip</field>
+        <field name="report_file">all_receipt_reports_omax.receipt_payment_slip</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="all_receipt_reports_omax.paper_format_receipts"/>
+    </record>
+    
+</odoo>
