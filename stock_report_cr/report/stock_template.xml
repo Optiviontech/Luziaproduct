@@ -1,0 +1,116 @@
+<odoo>
+    <template id="report_stock_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-size: 13px;">
+
+                    <!-- Report Title -->
+                    <div class="text-center mb-3">
+                        <h3 style="
+                            margin-bottom: 10px;
+                            font-size: 22pt;
+                            font-style: italic;
+                            text-decoration: underline;
+                            text-transform: lowercase;
+                            letter-spacing: 0.5px;
+                            color: #000;
+                        ">
+                            <center>stock report</center>
+                        </h3>
+                    </div>
+
+
+                    <!-- Report Info Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 12pt;">
+                        <tbody>
+                            <tr>
+                                <th style="width: 25%; background: #f8f9fa; padding: 8px; border: 1px solid #dee2e6;">Warehouse</th>
+                                <td style="padding: 8px; border: 1px solid #dee2e6;
+                                " align="center">
+                                    <t t-esc="report_company_id" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background: #f8f9fa; padding: 8px; border: 1px solid #dee2e6;">Location</th>
+                                <td style="padding: 8px; border: 1px solid #dee2e6;" align="center">
+                                    <t t-esc="report_location" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background: #f8f9fa; padding: 8px; border: 1px solid #dee2e6;">Date From</th>
+                                <td style="padding: 8px; border: 1px solid #dee2e6;" align="center">
+                                    <t t-esc="report_start_date" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="background: #f8f9fa; padding: 8px; border: 1px solid #dee2e6;">To Date</th>
+                                <td style="padding: 8px; border: 1px solid #dee2e6;" align="center">
+                                    <t t-esc="report_end_date" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Main Data Table -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12pt;">
+                        <thead style="background-color: #f8f9fa;">
+                            <tr style="border: 1px solid #dee2e6; text-align: center;">
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Reference</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Designation</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">UoM</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Initial Stock</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">In</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Out</th>
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Balance</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- Category Group -->
+                            <t t-if="serach_record">
+                                <t t-foreach="serach_record" t-as="element">
+                                    <tr style="background-color: #f2f2f2;">
+                                        <td colspan="7" style="padding: 8px; border: 1px solid #dee2e6; font-weight: 600;">
+                                            Category by: <t t-esc="element" />
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="serach_record[element]" t-as="line">
+                                        <tr>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6;"><t t-esc="line['default_code']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6;"><t t-esc="line['product']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6; text-align:center;"><t t-esc="line['uom']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="line['initial_stock']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="line['in']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="line['out']" /></td>
+                                            <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right; font-weight: 600;">
+                                                <t t-esc="line['balance']" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+
+                            <!-- Non-Grouped -->
+                            <t t-if="search_record">
+                                <t t-foreach="search_record" t-as="dec">
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6;"><t t-esc="dec['default_code']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6;"><t t-esc="dec['product']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6; text-align:center;"><t t-esc="dec['uom']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="dec['initial_stock']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="dec['in']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right;"><t t-esc="dec['out']" /></td>
+                                        <td style="padding: 8px; border: 1px solid #dee2e6; text-align:right; font-weight: 600;">
+                                            <t t-esc="dec['balance']" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
