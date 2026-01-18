@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="sh_cancel_stock_config_settings" model="ir.ui.view">
+        <field name="name">Stock Cancel Config Settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//app[@data-string='Inventory']" position="inside">
+
+                <!-- UPDATE CONFIGURATION -->
+                <block title="Cancel Configuration" name="sh_cancel_stock_config_configuration" groups="sh_stock_cancel.group_sh_stock_cancel,sh_stock_cancel.group_sh_stock_scrap_cancel">
+                    <setting id="picking_operation_type" groups="sh_stock_cancel.group_sh_stock_cancel">
+                        <label for="picking_operation_type"/>
+                        <div class="content-group">
+                            <field name="picking_operation_type" class="o_light_label" widget="radio"/>
+                        </div>
+                    </setting>
+
+                    <setting id="scrap_operation_type" groups="sh_stock_cancel.group_sh_stock_scrap_cancel">
+                        <label for="scrap_operation_type"/>
+                        <div class="content-group">
+                            <field name="scrap_operation_type" class="o_light_label" widget="radio"/>
+                        </div>                    
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
