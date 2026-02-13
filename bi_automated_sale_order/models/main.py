@@ -81,32 +81,32 @@ class InheritSale(models.Model):
 		if self.work_process_order_id:
 			self.picking_policy = self.work_process_order_id.shipping_policy
 			for line in self.order_line:
-					line.product_id.invoice_policy = self.work_process_order_id.invoicing_policy	
+					line.product_id.invoice_policy = self.work_process_order_id.invoicing_policy
 
 			if self.work_process_order_id.validation_order == True:
 				picking_confirm=self.action_confirm()
-				
+
 				for order in self:
 					if self.work_process_order_id.validation_picking == True or self.work_process_order_id.force_transfer == True:
 						picking_obj = self.env['stock.picking'].search([('origin','=',order.name)])
-						
+
 						for pick in picking_obj:
 							for qty in pick.move_ids:
-								
+
 								qty.write({
 								'quantity' : qty.product_uom_qty
 										})
-						
+
 							pick.button_validate()
 							pick._action_done()
-							
+
 
 							for line in order.order_line:
 								line.write({
 									'qty_delivered' : line.product_uom_qty,
 											})
 
-			if self.work_process_order_id.create_incoice == True:				
+			if self.work_process_order_id.create_incoice == True:
 				create_invoice = self._create_invoices()
 				invoice_obj = self.env['account.move'].search([('invoice_origin','=',self.name)])
 
@@ -122,7 +122,7 @@ class InheritSale(models.Model):
 					if create_invoice:
 
 						if create_invoice.state == 'posted' and create_invoice.payment_state == 'not_paid':
-							pmt = self.env['account.payment.register'].with_context(active_model='account.move', active_ids=create_invoice.ids).create({})
+							pmt = self.env['account.payment.register'].with_context(active_model='account.move', active_ids=create_invoice.ids, default_journal_id=self.work_process_order_id.payment_journal.id).create({})
 							pmt._create_payments()
 
 						else:
@@ -131,7 +131,7 @@ class InheritSale(models.Model):
 				elif self.work_process_order_id.validate_invoice == True or self.work_process_order_id.force_invoice==True:
 					validate=invoice_obj.action_post()
 				else:
-					pass							 
+					pass
 		else:
 			raise ValidationError(('Workflow Process is not given,Please give the Workflow process.') )
 
